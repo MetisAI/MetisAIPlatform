@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Welcome to your home</title>
+    <!-- Le styles -->
+    <link href="bootstrap/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+	    font-family:Berlin Sans FB;
+		font-size:20px;
+        padding-top: 50px;
+      }
+	   iframe {
+		width:100%;
+		height: 45px;
+	  }
+	  .myAI{
+		margin-top: 10px;
+		margin-left:30px;
+	  }
+	  .tablecenter{
+		text-align:center;
+		width:60%;
+	  }
+	   #footer {
+        height: 60px;
+        background-color: #f5f5f5;
+      }
+	  #push {height: 0px;}
+     
+	  /* input,button {  */
+	  *#delete{
+		border-radius:50% 50% 50% 50%; background-color: white; height: 30px; width:100px; 
+	  }
+	  
+	  *#info > td{width: 10% ;}
+    </style>
+</head>
+
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<iframe name="headf" id="headf" src="head.html" frameborder=0 scrolling="no"></iframe>
+	</div>
+	<div class="myAI">
+		<p style="font-size:30px" id="username"></p><br>
+		<hr>
+
+		<table class="tablecenter" id="info">
+			<thead>
+				<p style="font-size: 30px"><strong>User Information</strong></p>
+				<hr>
+				<tr>
+					<td>User name:</td>   <td><p id="username2"></p></td><td></td>
+				    <td>Age:</td>         <td><p id="age">18</p></td><td></td>
+				</tr>
+				<tr>
+					<td>School:</td>      <td><p id="school">NJU</p></td><td></td>
+				    <td>Major:</td>       <td><p id="major">Computer Science</p></td><td></td>
+				</tr>
+				<tr>
+					<td>Country:</td>     <td><p id="country">China</p></td><td></td>
+				    <td>Grade:</td>      <td><p id="grade">大一</p></td><td></td>
+				</tr>
+				<tr>
+					<td>Email:</td>       <td><p id="email">njuxudong@vip.qq.com</p></td><td></td>
+				    <td>:</td>            <td><p id=""></p></td><td></td>
+				</tr>
+			</thead>
+		</table>
+		<hr>
+		
+		<p style="font-size: 30px"><strong>My AI</strong></p>
+		<hr>
+				
+        <table class="tablecenter" id="OutputAi">
+			
+
+		</table>
+		<hr>
+	</div>
+	<form style="margin-left:250px">
+		<input type="button" id="myhistory" class="btn btn-large btn-primary" style = "width:30% font-size:20px" value="My pk history" />
+		<input type="button" id="uploadai" class="btn btn-large btn-primary" style = "width:30% font-size:20px" value="Upload AI"/>
+	</form>
+
+	<div id="push"></div>
+	<div id="footer">
+      <div class="container">
+        <center><p>Copyright &copy METIS &nbsp | &nbsp 2013</p></center>
+      </div>
+    </div>
+</body>
+	
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript">
+	$("#uploadai").click(function()
+	{
+		location.href="uploadai.html";
+	});
+	$("#myhistory").click(function()
+	{
+		location.href="myhistory.php";
+	});
+	var username;
+	var userid;
+	$(document).ready(function(e){
+		$.post(
+			'check_logined.php',
+			function(data)
+			{
+				username = data; //存为全局变量
+				if (data == "NO" || data.length>40)
+				{
+					location.href="login.html";	
+				}
+				else
+				{
+					/////////////////////////////////////////////////////info
+					$.post(
+						'userhome_info.php',
+						{user:data},
+						function(data2)
+						{
+							//alert(data2);
+							document.getElementById("email").innerHTML = data2;
+							document.getElementById("username").innerHTML = data;
+							document.getElementById("username2").innerHTML = data;
+						}
+					);
+					////////////////////////////////////////////////////////
+					$.getJSON(
+						'userhome_ai.php',
+						function(data3)
+						{
+							//alert(data3.ai[1][2]);
+							userid = data3.userid;
+							var ans="<thead><th style='width:2%'>Num</th><th style='width:30%'>Submit time</th><th style='width:10%'>Status</th><th style='width:35%'>Delete</th></thead>";
+							for (var i=0;i<data3.num ;i++ )
+							{
+								var str="";
+								str+="<tr><td>"+data3.ai[i][0]+"</td><td>"+data3.ai[i][2]+"</td><td>"+data3.ai[i][3]+"</td><td><input type='button' value='delete' id = 'delete'onclick='DeleteAi("+data3.ai[i][0]+")'/></td></tr>";
+								ans+=str;
+							}
+							
+							document.getElementById("OutputAi").innerHTML = ans;
+						}
+					);
+					
+				}
+			}
+		);
+	});
+	
+	function DeleteAi(num)
+	{
+		
+		$.post(
+			'userhome_deleteai.php',
+			{pid:num,userid:userid}
+		);
+		alert("successful delete!");
+		window.location.reload();
+	}
+	
+	</script>
+</html>

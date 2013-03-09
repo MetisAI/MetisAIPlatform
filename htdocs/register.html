@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Create new User</title>
+    <link href="bootstrap/bootstrap.css" rel="stylesheet"> 
+    <style type="text/css">
+      body {
+		font-size: 18px;
+		font-family:黑体; 
+        padding-top: 100px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
+      }
+      .form-signin {
+        max-width: 300px;
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+           -moz-border-radius: 5px;
+                border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+      }
+      .form-signin .form-signin-heading{
+        margin-bottom: 10px;
+      }
+      .form-signin input[type="text"],
+      .form-signin input[type="password"] {
+        font-size: 16px;
+        height: auto;
+        margin-bottom: 15px;
+        padding: 7px 9px;
+      }
+	 
+    </style>
+    <script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript">
+		function checkinformation()
+		{
+			var _username=$("#username").val();
+			var _pass=$("#pass").val();
+			var _email=$("#email").val();
+			var _sex=$("#sex:checked").val();
+			
+            //console.log(_username,_pass,_email,_sex);
+
+			
+			//php接口、、、、函数的参数。。
+			//其中sex的值为0--BOY  1--GIRL
+			if (_username==""){ alert("Please input your username!"); return;}
+			if (_pass=="")    { alert("Please input your password!"); return; }
+			if (_email=="")	 { alert("Please input your email address!"); return; }
+			if (_sex=="")     { alert("Please choose your sex!"); return;}
+			// if (school=="")  { alert("Please input your school!"); return ;}
+			// if (grade=="")   { alert("Please input your grade!"); return ;}
+			// if (res_ques==""){ alert("Please input your security question!"); return ;}
+			// if (res_ans=="") { alert("Please input your security answer!"); return ;}
+			$.post(
+				'check_user_exist.php',
+				{user:_username,email:_email},
+				function(data)
+				{
+					//alert(data);
+					if (data=="YES") 
+						alert("username already exist!");
+					else
+					{
+						$.post(
+							'register.php',
+							{user:_username,pass:_pass,email:_email},
+							function(data2)
+							{
+								//alert(data2);
+								if (data2=="success")
+									location.href="index.html";
+								else
+									alert("failed");
+							}
+						)
+					}
+				}
+			)
+			
+		}
+		function checkusername(username) 
+		{	if (username=="") alert("Please input your Username!"); 
+			else if(username.length>10) alert("Please use a name no more than 10 byte!"); 
+		}
+		function checkemail(email)
+		{   if (email=="") alert("Please input your Email address!"); 
+			else if (email.length>20) alert("Please use a emaill address no more than 20 byte!");	
+		}
+		function checkpassword(pass)
+		{	if (pass=="") alert("Please input your Password!"); 
+			else if(pass.length>12 || pass.length<6) alert("Please use a Password between 6~12 byte!");
+		}
+		function checkques(res_ques)
+		{	if (res_ques.length>20) alert("Please use a question no more than 20 byte!");
+		}
+		function checkans(res_ans)
+		{	if (res_ans.length>20) alert("Please use a answer no more than 20 byte!");
+		}
+	</script>
+</head>
+
+<body>
+	<div>
+		<form class="form-signin">
+			<h2 class="form-signin-heading">Create new User</h2>
+			<input type="text" class="input-block-level" placeholder="Username" id="username">
+			<input type="password" class="input-block-level" placeholder="Password" id="pass">	
+			<input type="text" class="input-block-level" placeholder="Email address" id="email">
+			
+			<div>
+				<input type="radio" name="sex" class="radio" id="sex" value="0"> Boy   &nbsp &nbsp
+				<input type="radio" name="sex" class="radio" id="sex" value="1"> Girl  &nbsp &nbsp
+			</div>
+			<!-- 考虑-->
+			<input type="text" class="input-block-level" placeholder="Your School" id="school">
+			<input type="text" class="input-block-level" placeholder="Grade" id="grade">
+			<!-- --- -->
+			<div>
+				Security question:
+				  <input type="text" class="input-block-level" placeholder="Answer" id="res_ans">
+			    <input type="text" class="input-block-level" placeholder="Question" id="res_ques">
+			</div>
+			
+			<center>
+			<button class="btn btn-large btn-primary" type="button"" id="submit" style="width:50%">Register</button> 
+			</center>
+        </form>
+    </div>
+    <script type="text/javascript">
+	$(document).ready(function(e) 
+    {
+	    $("#submit").click(function()
+			{
+				checkinformation();
+			}
+         )
+    }
+	)
+	</script>
+</body>
+
+
+
+</html>
