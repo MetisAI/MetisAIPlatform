@@ -1,0 +1,18 @@
+body {
+	font-family:ProximaNovaRgRegular,"Helvetica Neue",Helvetica,sans-serif;
+	padding-top: 30px;
+	/*background-color: #FFFFFF;*/
+	background-image: url("../picture/background.jpg");
+}
+#footer {
+	height: 60px;
+}
+#push {height: 100px;}
+p{ font-size:20px; }
+#fbody {
+	background-color: white;
+	border-width:thin;
+	border-style:none none solid none;
+	border-color:#545454;
+	padding-bottom:40px;
+}

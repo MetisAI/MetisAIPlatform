@@ -3,103 +3,74 @@
 <head>
 	<title>METIS</title>
 	<link href="bootstrap/bootstrap.css" rel="stylesheet">
-    <script type="text/javascript" src="js/jquery.js"></script>
-	<style>
-      body {
-		font-family:ProximaNovaRgRegular,"Helvetica Neue",Helvetica,sans-serif;
-        padding-top: 70px;
-      }
-	  iframe {
-		width:100%;
-		height: 45px;
-	  }
-     
-	  #footer {
-        height: 60px;
-        background-color: #f5f5f5;
-      }
-	  #push {height: 300px;}
-     
-	  h1{ font-size:50px;}
-	  h4{ font-size:35px;}
-	  p{
-		font-size:20px;
-	  }
-    </style>
+	<link href="bootstrap/body.css" rel="stylesheet">	
+	<script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript">
         $("document").ready(function(){$("body").hide();});
         $.post(
-                'check_logined.php',
-                function(data)
+			'check_logined.php',
+            function(data)
+            {
+                if (data == "NO" || data.length>40)
                 {
-                    //alert(data.length);
-                    if (data == "NO" || data.length>40)
-                    {
-                        document.getElementById("login").innerHTML ="<a href='login.html' target='_parent' class='navbar-link'>Login</a> &nbsp" ;
-                        $("body").show();
-                    }
-                    else
-                    {
-                        document.getElementById("login").innerHTML ="<a href='userhome.html' target='_parent' class='navbar-link'>"+data+"</a> &nbsp";
-                        document.getElementById("logout").innerHTML ="&nbsp<a onclick ='logout()' class='navbar-link'>logout</a>"
-                        $("body").show();
-                    }
+					document.getElementById("register").innerHTML ="<a href='register.html' class='navbar-link'>Register</a> &nbsp" ;
+					document.getElementById("login").innerHTML ="<a href='login.html' class='navbar-link'>Login</a> &nbsp" ;
+                    $("body").show();
                 }
+                else
+				{
+                    document.getElementById("login").innerHTML ="<a href='userhome.html' class='navbar-link'>"+data+"</a> &nbsp";
+                    document.getElementById("logout").innerHTML ="&nbsp<a href='#' onclick ='logout()' class='navbar-link'>logout</a>"
+                    $("body").show();
+                }
+            }
         );
-
-
         function logout()
         {
             $.post(
-                    'logout.php',
-                    function(data){parent.location.href="index.html";}
+                'logout.php',
+                function(data){location.href="index.html";}
             );
-
         }
     </script>
 </head>
 	
 <body>
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-inner" >
-        <div class="container-fluid">
-            <a class="brand" href="index.html" target="_parent">METIS</a>
-            <div class="nav-collapse collapse">
-                <p class="navbar-text pull-right">
-                    <!-- <a href="login.html" class="navbar-link">Login</a> &nbsp -->
-                    &nbsp &nbsp
-                    <a href="register.html" class="navbar-link" target="_parent">Register</a>
-                </p>
-                <p class="navbar-text pull-right" id="logout" target="_parent"></p>
-                <p class="navbar-text pull-right" id="login" target="_parent"></p>
-                <ul class="nav">
-                    <li><a href="index.html" target="_parent">Home</a></li>
-                    <li><a href="games.html" target="_parent">Games</a></li>
-                    <li><a href="userhome.html" target="_parent">MySpace</a></li>
-                    <li><a href="submissions.php" target="_parent">Submissions</a></li>
-                    <!-- <li><a href="pkhistory.php" target="_parent">PK history</a></li> -->
-                    <li><a href="aboutme.html" target="_parent">About METIS</a></li>
-                </ul>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner" >
+			<div class="container-fluid">
+				<a class="brand" href="index.html">METIS</a>
+				<div class="nav-collapse collapse">
+					<p class="navbar-text pull-right" id="logout"></p>
+					<p class="navbar-text pull-right" id="register">
+					<p class="navbar-text pull-right" id="login"></p>		
+					<ul class="nav">
+						<li><a href="index.html">Home</a></li>
+						<li><a href="games.html">Games</a></li>
+						<li><a href="submissions.php">Submissions</a></li>
+						<li><a href="aboutme.html">About METIS</a></li>
+					</ul>
 
-            </div>
-        </div>
-    </div>
-</div>
-   	
-	<div class="container">
-		<p style="font-size:60px">Welcome to METIS</p><br>
-		<h4>METIS:</h4>
-		<p>
-			An online AI platform,we provide games,&nbsp you can choose what you like to program. &nbsp Every game is a competition.
-			&nbsp We will reward the winners.
-		</p>
-		<p>
-			Come on and enjoy your time!
-		</p>
-		<br>
-		<h4>CS Science and Technology Festival:</h4>
-    </div>
-	
+				</div>
+			</div>
+		</div>
+	</div>
+
+   	<div id="fbody">
+		<div class="container">
+			<br><br><br>
+			<p style="font-size:60px">Welcome to METIS</p><br>
+			<p style="font-size:35px">METIS:</p>
+			<p>
+				An online AI platform,we provide games,&nbsp you can choose what you like to program. &nbsp Every game is a competition.
+				&nbsp We will reward the winners.
+			</p>
+			<p>
+				Come on and enjoy your time!
+			</p>
+			<p style="font-size:35px">CS Science and Technology Festival:</p>	
+		</div>
+	</div>
 	
 	<div id="push"></div>
 	<div id="footer">

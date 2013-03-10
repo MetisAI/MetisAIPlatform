@@ -3,36 +3,68 @@
 <head>
 	<title>Upload AI</title>
 	<link href="bootstrap/bootstrap.css" rel="stylesheet">
-    <style>
-      body {
-        padding-top: 50px;
-      }
-      .footer {
-		position: absolute;
-		left:30px;
-		bottom:0;
-      }
-	  .footer-font{
-		text-align:center;
-	  }
-	  iframe {
-		width:100%;
-		height: 45px;
-	  }
-    </style>
+    <link href="bootstrap/body.css" rel="stylesheet">
 </head>
-
+	
 <body style="text-align:center">
 	<div class="navbar navbar-inverse navbar-fixed-top">
-		<iframe name="headf" id="headf" src="head.html" frameborder=0 scrolling="no"></iframe>
+		<div class="navbar-inner" >
+			<div class="container-fluid">
+				<a class="brand" href="index.html">METIS</a>
+				<div class="nav-collapse collapse">
+					<p class="navbar-text pull-right" id="logout"></p>
+					<p class="navbar-text pull-right" id="register">
+					<p class="navbar-text pull-right" id="login"></p>		
+					<ul class="nav">
+						<li><a href="index.html">Home</a></li>
+						<li><a href="games.html">Games</a></li>
+						<li><a href="submissions.php">Submissions</a></li>
+						<li><a href="aboutme.html">About METIS</a></li>
+					</ul>
+
+				</div>
+			</div>
+		</div>
 	</div>
-	
-	<h1>Upload AI</h1>
-	<textarea rows=30  wrap = physical id=prog cols=200 accesskey=c style="width:70%"></textarea><br>
-	<input type="button" value="Upload" onclick="upload()">
+
+	<div id="fbody">
+	<div class="container">
+		<br><br>
+		<h1>Upload AI</h1>
+		<textarea rows=30  wrap = physical id=prog cols=200 accesskey=c style="width:70%"></textarea><br>
+		<input type="button" class="btn btn-large btn-primary" style = "width:30% font-size:20px" value="Upload" onclick="upload()">
+	</div>
+	</div>
 </body>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
+        $("document").ready(function(){$("body").hide();});
+        $.post(
+			'check_logined.php',
+            function(data)
+            {
+                if (data == "NO" || data.length>40)
+                {
+					document.getElementById("register").innerHTML ="<a href='register.html' class='navbar-link'>Register</a> &nbsp" ;
+					document.getElementById("login").innerHTML ="<a href='login.html' class='navbar-link'>Login</a> &nbsp" ;
+                    $("body").show();
+                }
+                else
+				{
+                    document.getElementById("login").innerHTML ="<a href='userhome.html' class='navbar-link'>"+data+"</a> &nbsp";
+                    document.getElementById("logout").innerHTML ="&nbsp<a href='#' onclick ='logout()' class='navbar-link'>logout</a>"
+                    $("body").show();
+                }
+            }
+        );
+        function logout()
+        {
+            $.post(
+                'logout.php',
+                function(data){location.href="index.html";}
+            );
+        }
+  
 	function upload()
 	{
 		var prog = $("#prog").val();
