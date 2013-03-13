@@ -1,0 +1,21 @@
+STAR aiid startinfo
+	SUCC
+	FAIL 
+DEBU info
+COMM aiid info
+	SUCC info
+	FAIL
+STOP aiid
+EXIT
+
+
+
+INIT
+
+
+
+
+INITERR 0
+EXIT error
+
+WINNER 0

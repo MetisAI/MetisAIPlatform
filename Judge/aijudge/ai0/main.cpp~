@@ -1,0 +1,49 @@
+#include "include/othello_ai.h"
+#include <iostream>
+#include <cstdio>
+using namespace std;
+othello_ai ai;
+void init(char *s){
+	//FILE *err;
+	//err = fopen("out.txt", "a");
+	//fprintf(err, "ai0\n");
+	//fprintf(err, "%s\n", s);
+	//fclose(err);
+	//string map;
+	//cin>>color>>map;
+	ai.init(s[0] - '0', s + 1);
+	//printf("SUCC\n");
+	//fflush(stdout);
+	//err = fopen("out.txt", "a");
+	//fprintf(err, "ai0\n");
+	//fprintf(err, "%s\n", s);
+	//fclose(err);
+}
+void run(){
+	string op;
+	int color, x, y;
+	while (true){
+		cin>>op;
+		if (op == "GET"){
+			pair<int, int> move = ai.get();
+			cout<<move.first<<' '<<move.second<<endl;
+			fflush(stdout);
+		}else{
+			cin>>color>>x>>y;
+			ai.move(color, x, y);
+			cout<<"SUCCESS"<<endl;
+			fflush(stdout);
+		}
+	}
+}
+int main(int argc, char *argv[]){
+	//FILE *err;
+	//fflush(stdin);
+	//err = fopen("out.txt", "a");
+	//fprintf(err, "%d\n", argc);
+	//fclose(err);
+	init(argv[1]);
+	printf("SUCC\n");
+	fflush(stdout);
+	run();
+}

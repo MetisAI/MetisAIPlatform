@@ -1,0 +1,2 @@
+运行如下：
+python main.py judge.exe 张三.exe 李四.exe

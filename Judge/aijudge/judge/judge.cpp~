@@ -1,0 +1,86 @@
+#include "judge.h"
+judge::judge(){
+	o.init();
+}
+void judge::init(){
+}
+void judge::run(){
+	int turn = 0;
+	while (true){
+		//FILE *err;
+		//err = fopen("out.txt", "a");
+		//fprintf(err, "hehe\n");
+		//fclose(err);
+		for (int i = 0; i < 2; ++i)
+			if (!player_init(i)){
+				judge_debug("INITERR %d\n", i);
+				judge_exit(-1);
+				return;
+			}else state[i] = true;
+
+		if (o.canmove(turn + 1)) judge_com(turn);
+		else if (!o.canmove(2 - turn)){
+			int x = o.count(1);
+			int y = o.count(2);
+			judge_debug("REPORT %d %d\n", x, y);
+			judge_exit((x >= y)?0:1);
+		}
+		turn = 1 - turn;
+	}
+}
+
+void judge::judge_debug(const char *format, ...){
+	printf("DEBU ");
+	va_list ap;
+	va_start(ap, format);
+	vprintf(format, ap);
+	va_end(ap);
+	fflush(stdout);
+}
+
+bool judge::player_init(int id){
+	string s = o.tostring();
+	printf("STAR %d %d%s\n", id, id + 1, s.c_str());
+	judge_debug("START %d\n", id); 
+	fflush(stdout);
+	cin>>s;
+	if (s == "SUCC") return true;
+	else return false;
+}
+
+void judge::judge_com(int turn){
+	string s;
+	printf("COMM %d GET\n", turn);
+	fflush(stdout);
+	cin>>s;
+	if (s == "SUCC"){
+		int x, y;
+		cin>>x>>y;
+		o.play(turn, x, y);
+		judge_debug("MOVE %d %d %d\n", turn, x, y);
+		fflush(stdout);
+		for (int i = 0; i < 2; ++i){
+			printf("COMM %d MOVE %d %d %d\n", i, 1 + turn, x, y);
+			fflush(stdout);
+			cin>>s;
+			if (!(state[i] = (s == "SUCC"))) judge_debug("RUNNTIMEERR %d\n", i);
+			else cin>>s;
+		}
+	}else{
+		judge_debug("RUNNTIMEERROR %d\n", turn);
+		int x, y;
+		o.play(turn, x, y);
+		judge_debug("MOVE %d %d %d\n", turn, x, y);
+		fflush(stdout);
+		printf("COMM %d MOVE %d %d %d\n", 1 - turn, 1 + turn, x, y);
+		fflush(stdout);
+		cin>>s;
+		if (!(state[1 - turn] = (s == "SUCC"))) judge_debug("RUNNTIMEERR %d\n", 1 - turn);
+		else cin>>s;
+	}
+}
+
+void judge::judge_exit(int id){
+	judge_debug("WINNERR %d\n", id);
+	judge_debug("EXIT\n");
+}
