@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>METIS</title>
+    <!-- Le styles -->
+    <link href="bootstrap/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 50px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+	  
+      .footer {
+		position: absolute;
+		left:30px;
+		bottom:0;
+      }
+	  .footer-font{
+		text-align:center;
+	  }
+    </style>
+
+</head>
+
+<body>
+	<!-------------------------------------以下部分为头部导航栏 ---------------------------------->
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner" >
+			<div class="container-fluid">
+				<a class="brand" href="index.html">METIS</a>
+				<div class="nav-collapse collapse">
+					<p class="navbar-text pull-right">
+						<!-- <a href="login.html" class="navbar-link">Login</a> &nbsp -->
+						<a href="register.html" class="navbar-link">Register</a>
+					</p>
+					<p class="navbar-text pull-right" id="login"></p>
+					<ul class="nav">
+						<li class="active"><a href="index.html">Home</a></li>
+						<li><a href="scorelist.html">Ranking</a></li>
+						<li><a href="pkhistory.php?page=1">PK history</a></li>
+						<li><a href="userhome.html">MySpace</a></li>
+						<li><a href="#contact">Contact</a></li>	 
+					</ul>
+					
+				</div>
+			</div>
+		</div>
+    </div>
+	<!----------------------------------------------------------------------------------------------->
+   
+	
+	<div class="container">
+		<h1>Welcome to METIS</h1>
+		<h3>Introduction:</h3>
+		<p>laskdjflaskdjfl knai laksfdl alk jsfi aklsf l</p>It is easy to write......</p>
+    </div> <!-- /container -->
+	
+	
+	
+	<!--
+	<div class="footer">
+		<div class="footer-font">
+		copyright
+		</div>
+    </div>
+	-->
+</body>
+	<!---------------------------导航右上角处理部分----------------------------------------------->
+	
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(e){
+		$.post(
+			'check_logined.php',
+			function(data)
+			{
+				//alert(data.length);
+				if (data == "NO" || data.length>40)
+				{
+					document.getElementById("login").innerHTML ="<a href='login.html' class='navbar-link'>Login</a> &nbsp" ;
+				}
+				else
+				{
+					document.getElementById("login").innerHTML ="<a href='userhome.html' class='navbar-link'>"+data+"</a> &nbsp"
+				}
+			}
+		);
+	});
+	</script>
+	<!-------------------------------------------------------------------------------------------->
+</html>

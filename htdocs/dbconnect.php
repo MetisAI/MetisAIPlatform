@@ -1,9 +1,9 @@
 <?php
-	$username='root';
-	$userpass='dragoncat';
-	$dbhost='localhost';
-	$dbdatabase='table2';
-	$db_connect=mysql_connect($dbhost,$username,$userpass) or die("Unable to connect to the MySQL!");;
-	mysql_select_db($dbdatabase,$db_connect);
+	$_username='root';
+	$_userpass='000000';
+	$_dbhost='localhost';
+	$_dbdatabase='db_ai';
+	$_db_connect=mysql_connect($_dbhost,$_username,$_userpass) or die("Unable to connect to the MySQL!");;
+	mysql_select_db($_dbdatabase,$_db_connect);
 	
 ?>

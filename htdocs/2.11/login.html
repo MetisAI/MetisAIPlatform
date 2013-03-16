@@ -9,7 +9,6 @@
         padding-bottom: 40px;
         background-color: #f5f5f5;
       }
-	  p{font-size: 20px;}
       .form-signin {
         max-width: 300px;
         padding: 19px 29px 29px;
@@ -34,6 +33,8 @@
         padding: 7px 9px;
       }
     </style>
+</head>
+
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
 	function checkuser()
@@ -54,58 +55,7 @@
 	}
 </script>
 
-	<script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript">
-        $("document").ready(function(){$("body").hide();});
-        $.post(
-			'check_logined.php',
-            function(data)
-            {
-                if (data == "NO" || data.length>40)
-                {
-                    //alert(data);
-					document.getElementById("register").innerHTML ="<a href='register.html' class='navbar-link'>Register</a> &nbsp" ;
-					document.getElementById("login").innerHTML ="<a href='login.html' class='navbar-link'>Login</a> &nbsp" ;
-                    $("body").show();
-                }
-                else
-				{
-                    document.getElementById("login").innerHTML ="<a href='userhome.html' class='navbar-link'>"+data+"</a> &nbsp";
-                    document.getElementById("logout").innerHTML ="&nbsp<a href='#' onclick ='logout()' class='navbar-link'>logout</a>"
-                    $("body").show();
-                }
-            }
-        );
-        function logout()
-        {
-            $.post(
-                'logout.php',
-                function(data){location.href="index.html";}
-            );
-        }
-    </script>
-</head>
-	
 <body>
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="navbar-inner" >
-			<div class="container-fluid">
-				<a class="brand" href="index.html">METIS</a>
-				<div class="nav-collapse collapse">
-					<p class="navbar-text pull-right" id="logout"></p>
-					<p class="navbar-text pull-right" id="register">
-					<p class="navbar-text pull-right" id="login"></p>		
-					<ul class="nav">
-						<li><a href="index.html">Home</a></li>
-						<li><a href="games.html">Games</a></li>
-						<li><a href="submissions.php">Submissions</a></li>
-						<li><a href="aboutme.html">About METIS</a></li>
-					</ul>
-
-				</div>
-			</div>
-		</div>
-	</div>
 	
 
 	<div class="container">

@@ -1,0 +1,225 @@
+<html>
+<head>
+<title>Othello player</title>
+<style>
+    table{
+        text-align: center;
+        margin-left:auto;
+        margin-right:auto;
+        margin-top: 20px;
+        margin-bottom: auto;
+        border-collapse: collapse;
+        background-color: #32cd32;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+    .blacktd{
+        background: url("111.png");
+    }
+    .whitetd{
+        background: url("222.png");
+    }
+    td{
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        border: 2px solid #000000;
+        height: 58px;
+        width: 55px;
+        max-width: 55px;
+        max-height: 58px;
+    }
+    .butarea{
+        text-align: center;
+    }
+    .button{
+        height: 40px;
+        width: 150px;
+    }
+</style>
+</head>
+<body>
+<div id="loading">
+    <h1>loading...</h1>
+</div>
+<div id="content">
+    <div class="butarea">
+        <button id="pre_step" class="button">previous</button>
+        <button id="next_step" class="button">Next</button>
+        <button id="play" class="button">play</button>
+    </div>
+
+    <table id="tb">
+    </table>
+</div>
+<script src="js/jquery.js" type="text/javascript"></script>
+<script src="js/jquery.query-2.1.7.js" type="text/javascript"></script>
+<script type="text/javascript">
+$("#content").hide();
+var id= $.query.get('cd');
+//alert(id);
+var rep;//rep data
+
+
+var map=new Array(70);
+for (var i=0;i<=64;i++)
+{
+    map[i]=new Array();
+    for (var j=0;j<8;j++)
+    {
+        map[i][j]=new Array();
+        for (var k=0;k<8;k++)
+            map[i][j][k]=0;
+    }
+}
+//1:white 2:black
+map[0][3][3]=map[0][4][4]=-1;
+map[0][3][4]=map[0][4][3]=1;
+
+var total_step=0;
+
+function range(x)
+{
+    if (x>=0&&x<8) return true;
+    else return false;
+}
+
+function find(c,x,y,dx,dy)
+{
+    if (!(range(x)&&range(y))) return 0;
+    if (map[total_step][x][y]==c) return 1;
+    if (map[total_step][x][y]==0) return 0;
+    if (find(c,x+dx,y+dy,dx,dy))
+    {
+        map[total_step][x][y]=c;
+        return 1;
+    }
+    return 0;
+}
+
+function clone_obj(p){
+    var f=function(){};
+    f.prototype=p;
+    return new f();
+}
+
+$.getJSON("getrep.php",function(data)
+{
+    rep=data.split("\r\n");
+    //alert(parseInt(rep[30][9]));
+
+    for (var i=0;i<rep.length;i++)
+    {
+        if (rep[i][0]=='E') break;
+        if (rep[i][0]=='M')
+        {
+            if (rep[i][5]==1) now=-1;else now=1;
+            total_step++;
+            //map[total_step]=clone_obj(map[total_step-1]);
+            for (var x=0;x<8;x++)for (var y=0;y<8;y++) map[total_step][x][y]=map[total_step-1][x][y];
+            var x=parseInt(rep[i][7]),y=parseInt(rep[i][9]);
+            map[total_step][x][y]=now;
+            find(now,x+1,y+1,1,1);
+            find(now,x-1,y-1,-1,-1);
+            find(now,x+1,y-1,1,-1);
+            find(now,x-1,y+1,-1,1);
+            find(now,x+1,y,1,0);
+            find(now,x,y+1,0,1);
+            find(now,x-1,y,-1,0);
+            find(now,x,y-1,0,-1);
+        }
+    }
+    setTimeout(function(){
+        $("#loading").hide();
+        $("#content").show();
+    },300)
+
+})
+
+function get_chess(i,j,k)
+{
+    if (map[i][j][k]==0) return '<td></td>';
+    else if (map[i][j][k]==1) return '<td class="whitetd"></td>';
+    else return '<td class="blacktd"></td> ';
+}
+
+
+function display( step)
+{
+    $("#tb").empty();
+    var s="";
+    for (var i=0;i<8;i++)
+    {
+        s+="<tr>";
+        for (var j=0;j<8;j++)
+            s+=get_chess(step,i,j);
+        s+="</tr>";
+    }
+    $("#tb").append(s);
+}
+
+var now_step=0;
+display(now_step);
+
+$('#next_step').bind('click',
+        function()
+        {
+            change_pause();
+            if (now_step<total_step)
+            {
+                now_step++;
+                display(now_step);
+            }
+        }
+);
+
+$('#pre_step').bind("click",
+        function()
+        {
+            change_pause();
+            if (now_step>0)
+            {
+                now_step--;
+                display(now_step);
+            }
+});
+
+var iid;
+
+function display_next()
+{
+    if (now_step==total_step-1)
+        change_pause();
+    if (now_step==total_step) return ;
+    now_step++;
+    display(now_step);
+}
+
+function change_pause()
+{
+    if ($('#pause').length>0)
+    {
+        clearInterval(iid);
+        $('#pause').remove();
+        $('.butarea').append('<button id="play" class="button">play</button>');
+    }
+}
+
+function change_play()
+{
+    iid=setInterval(display_next,300);
+    $('#play').remove();
+    //  alert($('.button1').html());
+    $('.butarea').append('<button id="pause" class="button">pause</button>');
+}
+
+$('body').delegate('#play','click',
+       change_play
+)
+$('body').delegate('#pause',"click",
+        change_pause
+)
+</script>
+</body>
+</html>
