@@ -1,0 +1,151 @@
+<html>
+<head>
+    <title>Submissions</title>
+    <link href='bootstrap/bootstrap.css' rel='stylesheet' >
+    <link href='bootstrap/body.css' rel='stylesheet' >
+	<script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript">
+        var tpage;
+        var cpage=1;
+        $("document").ready(function(){
+            output_list(1);
+        });
+
+
+        function datachange()
+        {
+            output_list(1);
+        }
+
+        function prepage()
+        {
+            cpage--;
+            output_list(cpage);
+        }
+        function nextpage()
+        {
+            cpage++;
+            output_list(cpage);
+        }
+        function gotopage(gotopage1)
+        {
+            cpage=gotopage1;
+            output_list(gotopage1);
+        }
+        function output_list(page)
+        {
+            var getdata=$("#data_s").val();
+
+            $.post(
+                "submissions.php",
+                {page:page,getdata:getdata} ,
+                function(data3){
+                    tpage=data3.totalPage;
+
+                    $("#list").html(data3.datalist);
+                    var writepage="";
+                    if (cpage != 1) {
+                        writepage+="<li class='prev previous_page'><a href='#' onclick='prepage()'>prepage</a></li>";
+                    }
+                    for (var i=1;i<=tpage;i++) {
+                        writepage+="<li><a href='#' onclick='gotopage("+i+")'>"+i+"</a></li>";
+                    }
+                    if (cpage<tpage) {
+                        writepage+="<li><a href='#' onclick='nextpage()'>nextpage</a></li>";
+                    }
+
+                    $("#pagelist").html(writepage);
+                }
+            )
+        }
+
+
+
+        $.post(
+			'check_logined.php',
+            function(data)
+            {
+                if (data == "NO" || data.length>40)
+                {
+					document.getElementById("register").innerHTML ="<a href='register.html' class='navbar-link'>Register</a> &nbsp" ;
+					document.getElementById("login").innerHTML ="<a href='login.html' class='navbar-link'>Login</a> &nbsp" ;
+
+                }
+                else
+				{
+                    document.getElementById("login").innerHTML ="<a href='userhome.html' class='navbar-link'>"+data+"</a> &nbsp";
+                    document.getElementById("logout").innerHTML ="&nbsp<a href='#' onclick ='logout()' class='navbar-link'>logout</a>"
+
+                }
+            }
+        );
+        function logout()
+        {
+            $.post(
+                'logout.php',
+                function(data){location.href="index.html";}
+            );
+        }
+    </script>
+</head>
+	
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner" >
+			<div class="container-fluid">
+				<a class="brand" href="index.html">METIS</a>
+				<div class="nav-collapse collapse">
+					<p class="navbar-text pull-right" id="logout"></p>
+					<p class="navbar-text pull-right" id="register">
+					<p class="navbar-text pull-right" id="login"></p>		
+					<ul class="nav">
+						<li><a href="index.html">Home</a></li>
+						<li><a href="games.html">Games</a></li>
+						<li class="active"><a href="submissions.html">Submissions</a></li>
+						<li><a href="aboutme.html">About METIS</a></li>
+					</ul>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+
+	<div id="fbody">
+	<div id="container" class="container">
+		<br><br><br>
+
+		<center><h1>Submissions</h1></center>
+		<table class="table table-striped">
+            <p class="pull-right" >
+                Search:
+                <input id="data_s" name="data_s" type="search" onkeyup="datachange()">
+            </p>
+			<thead>
+				<tr><th>User</th><th>Game</th><th>Version</th><th>Submit Date</th><th>Size</th><th>Status</th></tr>
+			</thead>
+			<tbody id="list">
+
+
+
+			</tbody>
+		</table>
+
+			<div class="pagination">
+				<ul id="pagelist">
+
+				</ul>
+			</div>
+	</div>
+	</div>
+
+
+	<div id="push"></div>
+	<div id="footer">
+      <div class="container">
+        <center><p>Copyright &copy METIS &nbsp | &nbsp 2013</p></center>
+      </div>
+    </div>
+</body>
+</html>

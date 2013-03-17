@@ -4,6 +4,9 @@ body {
 	/*background-color: #FFFFFF;*/
 	background-image: url("../picture/background.jpg");
 }
+a:hover{
+    text-decoration:none;  /*鼠标放上去有下划线*/
+}
 #footer {
 	height: 60px;
 }

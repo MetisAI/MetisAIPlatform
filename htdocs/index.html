@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 	<title>METIS</title>
 	<link href="bootstrap/bootstrap.css" rel="stylesheet">
-	<link href="bootstrap/body.css" rel="stylesheet">	
+	<link href="bootstrap/body.css" rel="stylesheet">
 	<script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/popup.js"></script>
+    <script type="text/javascript" src="js/popupclass.js"></script>
     <script type="text/javascript">
         $("document").ready(function(){$("body").hide();});
         $.post(
@@ -32,10 +33,13 @@
                 function(data){location.href="index.html";}
             );
         }
+
     </script>
+
 </head>
 	
 <body>
+
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner" >
 			<div class="container-fluid">
@@ -45,9 +49,9 @@
 					<p class="navbar-text pull-right" id="register">
 					<p class="navbar-text pull-right" id="login"></p>		
 					<ul class="nav">
-						<li><a href="index.html">Home</a></li>
+						<li class="active"><a href="index.html">Home</a></li>
 						<li><a href="games.html">Games</a></li>
-						<li><a href="submissions.php">Submissions</a></li>
+						<li><a href="submissions.html">Submissions</a></li>
 						<li><a href="aboutme.html">About METIS</a></li>
 					</ul>
 
@@ -68,16 +72,20 @@
 			<p>
 				Come on and enjoy your time!
 			</p>
-			<p style="font-size:35px">CS Science and Technology Festival:</p>	
+			<p style="font-size:35px">CS Science and Technology Festival:</p>
+
+
 		</div>
 	</div>
-	
-	<div id="push"></div>
+
+
+
+    <div id="push"></div>
 	<div id="footer">
       <div class="container">
         <center><p>Copyright &copy METIS &nbsp | &nbsp 2013</p></center>
       </div>
     </div>
-	
+
 </body>
 </html>

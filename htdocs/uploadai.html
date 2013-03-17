@@ -18,7 +18,7 @@
 					<ul class="nav">
 						<li><a href="index.html">Home</a></li>
 						<li><a href="games.html">Games</a></li>
-						<li><a href="submissions.php">Submissions</a></li>
+						<li><a href="submissions.html">Submissions</a></li>
 						<li><a href="aboutme.html">About METIS</a></li>
 					</ul>
 
@@ -73,10 +73,11 @@
 			'uploadai.php',
 			{prog:prog},
 			function(data2)
-			{
-				alert(data2);
-				alert("successful!!");
-				location.href="userhome.html";
+			{   if (data2 == "nologin") location.href="login.html";
+                else{
+				    if (data2 == 1) location.href="othello.html";  //等游戏多了要改
+				    else alert("upload failed!!");
+                }
 			}
 		);
 	}

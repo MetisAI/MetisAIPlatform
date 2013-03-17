@@ -4,6 +4,10 @@
 	<title>Othello</title>
 	<link href="bootstrap/bootstrap.css" rel="stylesheet">
 	<link href="bootstrap/body.css" rel="stylesheet">
+    <style>
+        table{width:100%}
+        th{width:30%}
+    </style>
 </head>
 	
 <body>
@@ -18,7 +22,7 @@
 					<ul class="nav">
 						<li><a href="index.html">Home</a></li>
 						<li><a href="games.html">Games</a></li>
-						<li><a href="submissions.php">Submissions</a></li>
+						<li><a href="submissions.html">Submissions</a></li>
 						<li><a href="aboutme.html">About METIS</a></li>
 					</ul>
 
@@ -30,7 +34,7 @@
 	<div id="fbody">
 		<div class="container">
 			<br><br><br>
-			<div class="span7">
+			<div class="span9" style="height:800px">
 				<h1>Othello</h1><br>
 				<h4>Rule of Othello:</h4>
 				<p>
@@ -45,9 +49,37 @@
 			<div class="span4">
 				<img src='othello/othello.jpg' height='300'/>
 			</div>
-			<div class="span4">
-				<center><input type="button" id="uploadai" class="btn btn-large btn-primary" style = "width:30% font-size:20px" value="Upload AI"/></center>
-			</div>
+
+            <ul class="thumbnails">
+                <li class="span4">
+                    <div class="thumbnail">
+                        <p>TOP 10:</p>
+                        <table>
+                            <thead>
+                            <tr><th>Rank</th><th>User</th><th>Score</th></tr>
+                            </thead>
+                            <tbody id="top10">
+                            </tbody>
+                        </table>
+                        <p><a href="rank.html">Get more >></a>
+                    </div>
+                </li>
+                <li class="span4">
+                    <div class="thumbnail">
+                        <p>My AI:</p>
+                        <table>
+                            <thead>
+                            <tr><th>Version</th><th>Score</th><th>Detail</th></tr>
+                            </thead>
+                            <tbody id="top10">
+                            </tbody>
+                        </table>
+                        <p><a href="rank.html">Get more >></a>
+                        <center><input type="button" id="uploadai" class="btn btn-large btn-primary" style = "width:30% font-size:20px" value="Upload AI"/></center>
+                    </div>
+                </li>
+            </ul>
+
 		</div>
 	</div>
 	
